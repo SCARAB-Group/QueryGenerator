@@ -1,5 +1,16 @@
+$(function () {
+
+    $('#theForm').on('submit', function (e) {
+        if (!e.isDefaultPrevented()) {
+            generateQuery("EPH_PHYS");
+            return false;
+        }
+    })
+});
+
 var generateQuery = function(target) {
     getCheckboxStatus(target);
+    document.getElementById("output").scrollIntoView();
 };
 
 var getCheckboxStatus = function(target) {
@@ -46,19 +57,19 @@ var displayOutput = function(content) { // Expects content to be an 1-dim array 
 
 // ful-variant, detta kanske ska läsas från en fil eller backend istället :)
 var getQueryTop = function() {
-    return "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;<br>"
+    return "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;<br><br>"
         + "DECLARE<br>"
         + "@StudyRequestId nvarchar(20)<br>"
         + ",@RequestComment nvarchar(255)<br>"
-        + ",@StudyName nvarchar(20)<br>"
+        + ",@StudyName nvarchar(20)<br><br>"
         + "IF object_id('tempdb..#TempData','U') IS NOT NULL DROP TABLE #TempData<br>"
-        + "IF object_id('tempdb..#BaseData','U') IS NOT NULL DROP TABLE #BaseData<br>"
+        + "IF object_id('tempdb..#BaseData','U') IS NOT NULL DROP TABLE #BaseData<br><br>"
         + "--	Study<br>"
         + "SET @StudyName = 'EpiHealth'<br>"
         + "--Data Extraction Request Id (The study's internal ID)<br>"
         + "SET @StudyRequestId = '#REQUEST_ID#'<br>"
         + "--Data Extraction comment (name of receiver)<br>"
-        + "SET @RequestComment = '#REQUEST_COMMENT#'<br>"
+        + "SET @RequestComment = '#REQUEST_COMMENT#'<br><br>"
         + "SELECT DISTINCT<br>"
         + "P.ParticipantID as ParticipantID --ParticipantId<br>";
 };
@@ -116,49 +127,49 @@ var getPreQryShortName = function(varName) {
 
 
 var getQueryBottom = function() {
-    return "INTO #TempData<br>"
+    return "INTO #TempData<br><br>"
         + "--Get study<br>"
-        + "FROM LGDB.dbo.Study S<br>"
+        + "FROM LGDB.dbo.Study S<br><br>"
         + "--Get participants in study<br>"
         + "INNER JOIN LGDB.dbo.Participant P<br>"
         + "	ON S.StudyID = P.StudyID<br>"
         + "	AND P.TestParticipant = 0 --Do not include test participants<br>"
-        + "	AND P.RecruitmentStatus != 'Testdeltagare'<br>"
+        + "	AND P.RecruitmentStatus != 'Testdeltagare'<br><br>"
         + "INNER JOIN LifeGene_MSCRM.dbo.Contact Contact<br>"
-        + "	ON P.Guid = Contact.ContactId<br>"
+        + "	ON P.Guid = Contact.ContactId<br><br>"
         + "INNER JOIN LifeGene_MSCRM.dbo.KI_instudy I<br>"
-        + "	ON P.Guid = I.ki_studiepersonid<br>"
+        + "	ON P.Guid = I.ki_studiepersonid<br><br>"
         + "--Finns minst ett samtycke om deltagaren i aktuell studie så går vi på detta.<br>"
         + "INNER JOIN LifeGene_MSCRM.dbo.ki_consent consent<br>"
         + "	ON P.Guid = consent.ki_regardingcontactid<br>"
         + "	--Om leftby och regarding inte är samma så ska samtycket sluta gälla när regarding fyller 15 år.<br>"
-        + "	AND ((CASE WHEN (consent.ki_leftbycontactid != consent.ki_regardingcontactid) THEN LGDB.api.CalculateAge(P.CivicRegistrationNumber) ELSE 18 END) <= 15 OR consent.ki_enddate IS NULL)<br>"
+        + "	AND ((CASE WHEN (consent.ki_leftbycontactid != consent.ki_regardingcontactid) THEN LGDB.api.CalculateAge(P.CivicRegistrationNumber) ELSE 18 END) <= 15 OR consent.ki_enddate IS NULL)<br><br>"
         + "--Finns minst ett samtycke om mig där \"Behandla personuppgifter/ Spara enkätsvar/ Spara mätresultat\" är godkänt så används detta<br>"
         + "INNER JOIN LifeGene_MSCRM.dbo.ki_consentlevel cl1<br>"
         + "	ON consent.ki_consentid = cl1.KI_consentId<br>"
         + "	AND cl1.ki_consentlevelcodeid = 'D3A24194-E0A8-DE11-B541-00155D248411' --\"Behandla personuppgifter/ Spara enkätsvar/ Spara mätresultat\"<br>"
         + "	AND cl1.KI_allowfuturedatausage = 1 --Tillåt framtida användning av data<br>"
-        + "	AND cl1.KI_value = 1 --\"Behandla personuppgifter/ Spara enkätsvar/ Spara mätresultat\" = Ja<br>"
+        + "	AND cl1.KI_value = 1 --\"Behandla personuppgifter/ Spara enkätsvar/ Spara mätresultat\" = Ja<br><br>"
         + "--Finns minst ett samtycke om mig där \"Tillåt hälsorelaterad forskning\" är godkänt så används detta	<br>"
         + "INNER JOIN LifeGene_MSCRM.dbo.ki_consentlevel cl2<br>"
         + "	ON consent.ki_consentid = cl2.KI_consentId<br>"
         + "	AND cl2.ki_consentlevelcodeid = '1A28089F-E0A8-DE11-B541-00155D248411' --\"Tillåt hälsorelaterad forskning\"<br>"
         + "	AND cl2.KI_allowfuturedatausage = 1 --Tillåt framtida användning av data<br>"
-        + "	AND cl2.KI_value = 1 --\"Tillåt hälsorelaterad forskning\" = Ja<br>"
+        + "	AND cl2.KI_value = 1 --\"Tillåt hälsorelaterad forskning\" = Ja<br><br>"
         + "--Get physical data<br>"
         + "INNER JOIN LGDB.dbo.ExternalParticipant EP<br>"
-        + "	ON P.ParticipantID = EP.ParticipantID<br>"
-        + "--INNER JOIN LGDB.dbo.QuestionnaireParticipant QP<br>"
+        + "	ON P.ParticipantID = EP.ParticipantID<br><br>"
+        + "INNER JOIN LGDB.dbo.QuestionnaireParticipant QP<br>"
         + "	ON P.ParticipantID = QP.SourceParticipantID<br>"
-        + "	and QP.Status = 'completed' -- Completed survey<br>"
+        + "	and QP.Status = 'completed' -- Completed survey<br><br>"
         + "INNER JOIN [LIMS-PROD].dbo.SAMPLE Sample<br>"
         + "	ON Sample.PATIENT = EP.ExternalParticipantID COLLATE Finnish_Swedish_CI_AS<br>"
         + "	AND EP.ExternalSystemID = 6 --Lims<br>"
-        + "	AND Sample.STATUS != 'X'<br>"
+        + "	AND Sample.STATUS != 'X'<br><br>"
         + "-- Get visit results<br>"
         + "INNER JOIN [LIMS-PROD].dbo.RESULT Result<br>"
         + "	ON Result.SAMPLE_NUMBER = Sample.SAMPLE_NUMBER<br>"
-        + "	AND Result.STATUS != 'X'<br>"
+        + "	AND Result.STATUS != 'X'<br><br>"
         + "WHERE S.Description = @StudyName<br>"
         + "AND Sample.PRODUCT_GRADE NOT LIKE 'Bara blod'<br>"
         + "GROUP BY P.ParticipantID<br>"
@@ -166,10 +177,10 @@ var getQueryBottom = function() {
         + "		,Sample.PRODUCT_GRADE<br>"
         + "		,P.CivicRegistrationNumber<br>"
         + "		,Sample.LG_MACHINE<br>"
-        + "		--,Sample.SAMPLE_NUMBER<br>"
+        + "		--,Sample.SAMPLE_NUMBER<br><br>"
         + "--Create DataExtraction request<br>"
-        + "exec LGDB.DataExtraction.CreateRequest @StudyName, @StudyRequestId, @RequestComment<br>"
-        + "declare @studyExternalId int = (SELECT ExternalStudyID FROM LGDB.dbo.Study WHERE Description = @StudyName)<br>"
+        + "exec LGDB.DataExtraction.CreateRequest @StudyName, @StudyRequestId, @RequestComment<br><br>"
+        + "declare @studyExternalId int = (SELECT ExternalStudyID FROM LGDB.dbo.Study WHERE Description = @StudyName)<br><br>"
         + "--Lookup RequestId in LGDB.DataExtraction.Request<br>"
         + ",@RequestId int = (SELECT RequestId FROM LGDB.DataExtraction.Request WHERE RequestStudyRequestId = @StudyRequestId)<br>"
         + "INSERT INTO LGDB.DataExtraction.Participant (ParticipantId, ParticipantStudyId, RequestId)<br>"
@@ -179,10 +190,10 @@ var getQueryBottom = function() {
         + "@RequestId<br>"
         + "FROM #TempData pm<br>"
         + "WHERE NOT EXISTS (<br>"
-        + "	SELECT 1 FROM LGDB.DataExtraction.Participant <br>"
+        + " SELECT 1 FROM LGDB.DataExtraction.Participant <br>"
         + "	WHERE ParticipantId = pm.ParticipantID<br>"
         + "	AND ParticipantStudyId = @studyExternalId<br>"
-        + "	AND RequestId = @RequestId)<br>"
+        + "	AND RequestId = @RequestId)<br><br>"
         + "SELECT<br>"
         + "(SELECT ParticipantDataExtractionId <br>"
         + "	FROM LGDB.DataExtraction.Participant <br>"
@@ -191,12 +202,12 @@ var getQueryBottom = function() {
         + ",*<br>"
         + "INTO #BaseData<br>"
         + "FROM #TempData PM<br>"
-        + "ORDER BY ParticipantInRequestId<br>"
+        + "ORDER BY ParticipantInRequestId<br><br>"
         + "--Export output from this query<br>"
         + "SELECT DISTINCT<br>"
         + "B.ParticipantInRequestId,*<br>"
         + "FROM #BaseData B<br>"
-        + "ORDER BY B.ParticipantInRequestId<br>"
+        + "ORDER BY B.ParticipantInRequestId<br><br>"
         + "DROP TABLE #TempData<br>"
         + "DROP TABLE #BaseData<br>"
 };
@@ -215,3 +226,4 @@ var readTextFile = function(file) {
     }
     rawFile.send(null);
 };
+

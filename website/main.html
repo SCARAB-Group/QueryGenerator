@@ -7,8 +7,10 @@
   <link rel="stylesheet" href="lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
   <script src="lib/jquery-3.1.1.min.js"></script>
   <script src="lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-  <script src="lib/scripts.js"></script>
   <script src="lib/w3data.js"></script>
+  <script src="lib/validator.js"></script>
+  <script src="lib/scripts.js"></script>
+  
 </head>
 
 <body>
@@ -51,218 +53,223 @@
 
             <br>
 
-            <div class="container-fluid">
-                <label for="dataRequestId">Data extraction Id:</label>
-                <input type="text" class="form-control" id="dataRequestId">
-            </div>
-
-            <div class="container-fluid">
-                <label for="dataExtractionComment">Data extraction comment:</label>
-                <input type="text" class="form-control" id="dataExtractionComment">
-            </div>
-
-            <div class="container-fluid">
-                <div class="checkbox">
-                <label for="checkAll">
-                    <input id="checkAll" type="checkbox" onclick="checkAll(this, 'EPH_PHYS')">Check/uncheck all</button>
-                </label>
+            <form role="form" data-toggle="validator" id="theForm">
+                <div class="container-fluid">
+                    <label for="dataRequestId">Data extraction Id:</label>
+                    <input type="text" class="form-control" id="dataRequestId" required>
                 </div>
-            </div>
 
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>Check for order</th>
-                        <th>Analysis</th>
-                        <th>Variable</th>
-                        <th>Units</th>
-                        <th>Comment</th>
-                        <th>Instrument</th>
-                        <th>Analysis version</th>
-                        <th>Internal identifier, analysis</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr><td>Always included</td><td></td><td>ParticipantId</td><td></td><td>Participant identifier</td><td></td><td></td><td></td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td></td><td>Visit-age calculation</td><td></td><td>Participant age at visit</td><td></td><td></td><td></td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td></td><td>Gender</td><td></td><td>Participant gender</td><td></td><td></td><td></td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td></td><td>Visit date</td><td></td><td>Participant visit date</td><td></td><td></td><td></td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td></td><td>Visit site</td><td></td><td>Participant visit site</td><td></td><td></td><td></td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>Use pacemaker</td><td></td><td>Y/N. Question in test room.</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>Eaten today</td><td></td><td>Y/N. Question in test room.</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>Have atrial fibrillation</td><td></td><td>Y/N. Question in test room.</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>Has blood infection</td><td></td><td>Y/N. Question in test room.</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>Medication for diabetes</td><td></td><td>Y/N. Question in test room.</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>Medication for high blood pressure</td><td></td><td>Y/N. Question in test room.</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>Medication for high cholesterol</td><td></td><td>Y/N. Question in test room.</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>How long fasting</td><td></td><td>X Hours</td><td>N/A</td><td>≧ 2</td><td>EPH_PRE_QRY</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>Infection past two weeks</td><td></td><td>Y/N, if Y the variables below is applicable</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td><i>What infection</i></td><td></td><td></td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td style="padding-left:20px;">Joint</td><td></td><td>Arthritis</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td style="padding-left:20px;">gastro-intestinal</td><td></td><td>Gastrointestinal infection</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td style="padding-left:20px;">Cold/influenza</td><td></td><td>Upper airway infection</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td style="padding-left:20px;">Other</td><td></td><td>Other</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td style="padding-left:20px;">Urinary tract</td><td></td><td>Urinary tract infection</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Height - Uppsala</td><td>Height</td><td>CM</td><td>Manual measuring</td><td>Hyssna M 4139</td><td>All versions</td><td>EPH_LANGD</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Height - Malmö</td><td>Height</td><td>CM</td><td>Manual measuring</td><td>SECA</td><td>All versions</td><td>EPH_LANGD</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Thorax circumference</td><td>Thorax circumference</td><td>CM</td><td>Manual measuring</td><td>Measuring tape</td><td>All versions</td><td>EPH_THORAX</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Waist circumference</td><td>Waist circumference</td><td>CM</td><td>Manual measuring</td><td>Measuring tape</td><td>All versions</td><td>EPH_WAIST</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Hip circumference</td><td>Hip circumference</td><td>CM</td><td>Manual measuring</td><td>Measuring tape</td><td>All versions</td><td>EPH_HIP</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Ratio Waist/Hip circumference</td><td>Waist/Hip ratio</td><td></td><td>Calculated result - waist/hip</td><td>N/A</td><td>All versions</td><td>EPH_WST_HIP</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Age</td><td>YEARS</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Trunk Fat free mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Trunk Fat mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Trunk Body fat percentage</td><td>PERCENT</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>BMI</td><td></td><td>Bioimpedance/weight only - Calculated value</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA/EPH_TANITAW</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>BMR</td><td>KJ</td><td>Bioimpedance - Calculated value</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Date</td><td></td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Fat free mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Fat mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Right arm Fat free mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Right arm Fat mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Right arm Body fat percentage</td><td>PERCENT</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Right leg Fat free mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Right leg Fat mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Right leg Body fat percentage</td><td>PERCENT</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Gender</td><td></td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Body fat percentage</td><td>PERCENT</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Body water mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Left arm Fat free mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Left arm Fat mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Left arm Body fat percentage</td><td>PERCENT</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Left leg Fat free mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Left leg Fat mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Left leg Body fat percentage</td><td>PERCENT</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Weight</td><td>KG</td><td>Bioimpedance/weight only</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA/EPH_TANITAW</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>ELA</td><td>ÅR</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>ELA %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>ELA Predicted</td><td>ÅR</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>EVol</td><td>ML</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>EVol %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>EVol Predicted</td><td>ML</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF25</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF25 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF25 Predicted</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF2575</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF2575 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF2575 Predicted</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF50</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF50 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF50 Predicted</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF75</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF75 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF75 Predicted</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FET</td><td>S</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FET %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FET Predicted</td><td>S</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1 Predicted</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1/FEV6</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1/FEV6 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1/FEV6 Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1/FVC</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1/FVC %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1/FVC Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV3</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV3 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV3 Predicted</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV3/FVC</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV3/FVC %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV3/FVC Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV6</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV6 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV6 Predicted</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIV1</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIV1 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIV1 Predicted</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIV1/FIVC</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIV1/FIVC %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIV1/FIVC Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIVC</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIVC %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIVC Predicted</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FVC</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FVC %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FVC Predicted</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>Interpretation</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>QUALITYGRADE_TEXT</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>PEF</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>PEF %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>PEF Predicted</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>PIF</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>PIF %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>PIF Predicted</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>Quality Grade</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>Quality Report</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>Reproducibility</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFEV1</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFEV1 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFEV1 Predicted</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFEV1/FVC</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFEV1/FVC %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFEV1/FVC Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFVC</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFVC %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFVC Predicted</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTPEF</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTPEF %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTPEF Predicted</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>Date</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>Session Reference</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>Time</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>Session Trials</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Trail-making test</td><td>Test A - Errors</td><td></td><td>Trail making test A - Performed at the computer</td><td>Custom made Trail-making test software</td><td>All versions</td><td>EPH_COGNITION</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Trail-making test</td><td>Test A - Time used</td><td>SEC</td><td>Trail making test A - Performed at the computer, main variable</td><td>Custom made Trail-making test software</td><td>All versions</td><td>EPH_COGNITION</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Trail-making test</td><td>Test B  - Errors</td><td></td><td>Trail making test B - Performed at the computer</td><td>Custom made Trail-making test software</td><td>All versions</td><td>EPH_COGNITION</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Trail-making test</td><td>Test B - Time used</td><td>SEC</td><td>Trail making test B - Performed at the computer, main variable</td><td>Custom made Trail-making test software</td><td>All versions</td><td>EPH_COGNITION</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Blood pressure & Pulse - Uppsala</td><td>Diastolic</td><td></td><td>Manual measuring</td><td>Sunnex Tillquist Blood Pressure Monitor 41271413/41271511/41271312</td><td>All versions</td><td>EPH_BLOOD</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Blood pressure & Pulse - Uppsala</td><td>Pulse</td><td>BPM</td><td>Manual measuring</td><td>Sunnex Tillquist Blood Pressure Monitor 41271413/41271511/41271312</td><td>All versions</td><td>EPH_BLOOD</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Blood pressure & Pulse - Uppsala</td><td>Systolic</td><td></td><td>Manual measuring</td><td>Sunnex Tillquist Blood Pressure Monitor 41271413/41271511/41271312</td><td>All versions</td><td>EPH_BLOOD</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Blood pressure & Pulse - Malmö</td><td>Diastolic</td><td></td><td>Automatic measuring</td><td>Omron M6</td><td>All versions</td><td>EPH_BLOOD</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Blood pressure & Pulse - Malmö</td><td>Pulse</td><td>BPM</td><td>Automatic measuring</td><td>Omron M6</td><td>All versions</td><td>EPH_BLOOD</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Blood pressure & Pulse - Malmö</td><td>Systolic</td><td></td><td>Automatic measuring</td><td>Omron M6</td><td>All versions</td><td>EPH_BLOOD</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>EKG</td><td>HeartRate</td><td>BPM</td><td>One lead ECG</td><td>Zenicor EKG-2</td><td>All versions</td><td>EKG</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>EKG</td><td>rrVar</td><td></td><td>One lead ECG</td><td>Zenicor EKG-2</td><td>All versions</td><td>EKG</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>EKG</td><td>QTC</td><td></td><td>One lead ECG</td><td>Zenicor EKG-2</td><td>All versions</td><td>EKG</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>EKG</td><td>Diagnosis</td><td></td><td>ECG - Diagnosis</td><td></td><td>All versions</td><td>EKG</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>EKG</td><td>Sinusrythm</td><td></td><td>ECG - Diagnosis</td><td></td><td>All versions</td><td>EKG</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>EKG</td><td>A fibrillation</td><td></td><td>ECG - Diagnosis</td><td></td><td>All versions</td><td>EKG</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>EKG</td><td>Bad quality</td><td></td><td>ECG - Diagnosis</td><td></td><td>All versions</td><td>EKG</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>EKG</td><td>Other arythmias</td><td></td><td>ECG - Diagnosis</td><td></td><td>All versions</td><td>EKG</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Biobanked blood sample</td><td>Citrate 3.8%</td><td></td><td>Fasting sample</td><td></td><td>All versions</td><td>EPH_BLOTUBE</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Biobanked blood sample</td><td>EDTA Whole Blood</td><td></td><td>Fasting sample</td><td></td><td>All versions</td><td>EPH_BLOTUBE</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Biobanked blood sample</td><td>PPT (EDTA with gel)</td><td></td><td>Fasting sample</td><td></td><td>All versions</td><td>EPH_BLOTUBE</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Biobanked blood sample</td><td>PST (LiHep with gel)</td><td></td><td>Fasting sample</td><td></td><td>All versions</td><td>EPH_BLOTUBE</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Analysed blood sample</td><td>NaFl (analysis)</td><td></td><td>Fasting sample - Analysis</td><td></td><td>All versions</td><td>Analysed blood sample</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Analysed blood sample</td><td>P-Glucose</td><td>mmol/L</td><td>Fasting sample - Analysis</td><td></td><td>All versions</td><td>Analysed blood sample</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Analysed blood sample</td><td>LiHep (analysis)</td><td></td><td>Fasting sample - Analysis</td><td></td><td>All versions</td><td>Analysed blood sample</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Analysed blood sample</td><td>P-total cholesterol</td><td>mmol/L</td><td>Fasting sample - Analysis</td><td></td><td>All versions</td><td>Analysed blood sample</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Analysed blood sample</td><td>P-HDL-cholesterol</td><td>mmol/L</td><td>Fasting sample - Analysis</td><td></td><td>All versions</td><td>Analysed blood sample</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Analysed blood sample</td><td>fP-Triglycerides/P-Triglycerides</td><td>mmol/L</td><td>Fasting sample - Analysis. "fP" from start until 2013-09-23, "P" from 2013-09-24.</td><td></td><td>All versions</td><td>Analysed blood sample</td></tr>
-                    <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Analysed blood sample</td><td>LDL-cholesterol, calculated</td><td>mmol/L</td><td>Fasting sample - Analysis</td><td></td><td>All versions</td><td>Analysed blood sample</td></tr>
-                    </tbody>
-                </table>
-            </div>
+                <div class="container-fluid">
+                    <label for="dataExtractionComment">Data extraction comment:</label>
+                    <input type="text" class="form-control" id="dataExtractionComment" required>
+                </div>
 
-            <div class="container-fluid">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" onclick="checkAll(this, 'EPH_PHYS')">Check/uncheck all</button>
+                <div class="form-group">
+                    <div class="checkbox">
+                    <label for="checkAllBoxesTop">
+                        <input id="checkAllBoxesTop" type="checkbox" onclick="checkAll(this, 'EPH_PHYS')">Check/uncheck all</button>
                     </label>
+                    </div>
                 </div>
-            </div>
+                
+                <div class="form-group">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Check for order</th>
+                            <th>Analysis</th>
+                            <th>Variable</th>
+                            <th>Units</th>
+                            <th>Comment</th>
+                            <th>Instrument</th>
+                            <th>Analysis version</th>
+                            <th>Internal identifier, analysis</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr><td>Always included</td><td></td><td>ParticipantId</td><td></td><td>Participant identifier</td><td></td><td></td><td></td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td></td><td>Visit-age calculation</td><td></td><td>Participant age at visit</td><td></td><td></td><td></td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td></td><td>Gender</td><td></td><td>Participant gender</td><td></td><td></td><td></td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td></td><td>Visit date</td><td></td><td>Participant visit date</td><td></td><td></td><td></td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td></td><td>Visit site</td><td></td><td>Participant visit site</td><td></td><td></td><td></td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>Use pacemaker</td><td></td><td>Y/N. Question in test room.</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>Eaten today</td><td></td><td>Y/N. Question in test room.</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>Have atrial fibrillation</td><td></td><td>Y/N. Question in test room.</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>Has blood infection</td><td></td><td>Y/N. Question in test room.</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>Medication for diabetes</td><td></td><td>Y/N. Question in test room.</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>Medication for high blood pressure</td><td></td><td>Y/N. Question in test room.</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>Medication for high cholesterol</td><td></td><td>Y/N. Question in test room.</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>How long fasting</td><td></td><td>X Hours</td><td>N/A</td><td>≧ 2</td><td>EPH_PRE_QRY</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td>Infection past two weeks</td><td></td><td>Y/N, if Y the variables below is applicable</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td><i>What infection</i></td><td></td><td></td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td style="padding-left:20px;">Joint</td><td></td><td>Arthritis</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td style="padding-left:20px;">gastro-intestinal</td><td></td><td>Gastrointestinal infection</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td style="padding-left:20px;">Cold/influenza</td><td></td><td>Upper airway infection</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td style="padding-left:20px;">Other</td><td></td><td>Other</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Preparing questions</td><td style="padding-left:20px;">Urinary tract</td><td></td><td>Urinary tract infection</td><td>N/A</td><td>All versions</td><td>EPH_PRE_QRY</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Height - Uppsala</td><td>Height</td><td>CM</td><td>Manual measuring</td><td>Hyssna M 4139</td><td>All versions</td><td>EPH_LANGD</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Height - Malmö</td><td>Height</td><td>CM</td><td>Manual measuring</td><td>SECA</td><td>All versions</td><td>EPH_LANGD</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Thorax circumference</td><td>Thorax circumference</td><td>CM</td><td>Manual measuring</td><td>Measuring tape</td><td>All versions</td><td>EPH_THORAX</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Waist circumference</td><td>Waist circumference</td><td>CM</td><td>Manual measuring</td><td>Measuring tape</td><td>All versions</td><td>EPH_WAIST</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Hip circumference</td><td>Hip circumference</td><td>CM</td><td>Manual measuring</td><td>Measuring tape</td><td>All versions</td><td>EPH_HIP</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Ratio Waist/Hip circumference</td><td>Waist/Hip ratio</td><td></td><td>Calculated result - waist/hip</td><td>N/A</td><td>All versions</td><td>EPH_WST_HIP</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Age</td><td>YEARS</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Trunk Fat free mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Trunk Fat mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Trunk Body fat percentage</td><td>PERCENT</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>BMI</td><td></td><td>Bioimpedance/weight only - Calculated value</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA/EPH_TANITAW</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>BMR</td><td>KJ</td><td>Bioimpedance - Calculated value</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Date</td><td></td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Fat free mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Fat mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Right arm Fat free mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Right arm Fat mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Right arm Body fat percentage</td><td>PERCENT</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Right leg Fat free mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Right leg Fat mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Right leg Body fat percentage</td><td>PERCENT</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Gender</td><td></td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Body fat percentage</td><td>PERCENT</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Body water mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Left arm Fat free mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Left arm Fat mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Left arm Body fat percentage</td><td>PERCENT</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Left leg Fat free mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Left leg Fat mass</td><td>KG</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Left leg Body fat percentage</td><td>PERCENT</td><td>Bioimpedance</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Weight and bioimpedance</td><td>Weight</td><td>KG</td><td>Bioimpedance/weight only</td><td>Tanita BC-418 MA</td><td>All versions</td><td>EPH_TANITA/EPH_TANITAW</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>ELA</td><td>ÅR</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>ELA %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>ELA Predicted</td><td>ÅR</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>EVol</td><td>ML</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>EVol %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>EVol Predicted</td><td>ML</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF25</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF25 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF25 Predicted</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF2575</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF2575 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF2575 Predicted</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF50</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF50 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF50 Predicted</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF75</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF75 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEF75 Predicted</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FET</td><td>S</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FET %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FET Predicted</td><td>S</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1 Predicted</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1/FEV6</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1/FEV6 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1/FEV6 Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1/FVC</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1/FVC %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV1/FVC Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV3</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV3 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV3 Predicted</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV3/FVC</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV3/FVC %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV3/FVC Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV6</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV6 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FEV6 Predicted</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIV1</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIV1 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIV1 Predicted</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIV1/FIVC</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIV1/FIVC %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIV1/FIVC Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIVC</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIVC %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FIVC Predicted</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FVC</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FVC %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>FVC Predicted</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>Interpretation</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>QUALITYGRADE_TEXT</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>PEF</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>PEF %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>PEF Predicted</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>PIF</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>PIF %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>PIF Predicted</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>Quality Grade</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>Quality Report</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>Reproducibility</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFEV1</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFEV1 %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFEV1 Predicted</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFEV1/FVC</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFEV1/FVC %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFEV1/FVC Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFVC</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFVC %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTFVC Predicted</td><td>L</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTPEF</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTPEF %Predicted</td><td>PERCENT</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>SESSIONBESTPEF Predicted</td><td>L_SEC</td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>Date</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>Session Reference</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>Time</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Spirometry</td><td>Session Trials</td><td></td><td>MiniSpir used from 2011-11-28</td><td>MIR MiniSpir</td><td>All versions</td><td>EPH_SPIRO_MINISPIR</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Trail-making test</td><td>Test A - Errors</td><td></td><td>Trail making test A - Performed at the computer</td><td>Custom made Trail-making test software</td><td>All versions</td><td>EPH_COGNITION</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Trail-making test</td><td>Test A - Time used</td><td>SEC</td><td>Trail making test A - Performed at the computer, main variable</td><td>Custom made Trail-making test software</td><td>All versions</td><td>EPH_COGNITION</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Trail-making test</td><td>Test B  - Errors</td><td></td><td>Trail making test B - Performed at the computer</td><td>Custom made Trail-making test software</td><td>All versions</td><td>EPH_COGNITION</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Trail-making test</td><td>Test B - Time used</td><td>SEC</td><td>Trail making test B - Performed at the computer, main variable</td><td>Custom made Trail-making test software</td><td>All versions</td><td>EPH_COGNITION</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Blood pressure & Pulse - Uppsala</td><td>Diastolic</td><td></td><td>Manual measuring</td><td>Sunnex Tillquist Blood Pressure Monitor 41271413/41271511/41271312</td><td>All versions</td><td>EPH_BLOOD</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Blood pressure & Pulse - Uppsala</td><td>Pulse</td><td>BPM</td><td>Manual measuring</td><td>Sunnex Tillquist Blood Pressure Monitor 41271413/41271511/41271312</td><td>All versions</td><td>EPH_BLOOD</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Blood pressure & Pulse - Uppsala</td><td>Systolic</td><td></td><td>Manual measuring</td><td>Sunnex Tillquist Blood Pressure Monitor 41271413/41271511/41271312</td><td>All versions</td><td>EPH_BLOOD</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Blood pressure & Pulse - Malmö</td><td>Diastolic</td><td></td><td>Automatic measuring</td><td>Omron M6</td><td>All versions</td><td>EPH_BLOOD</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Blood pressure & Pulse - Malmö</td><td>Pulse</td><td>BPM</td><td>Automatic measuring</td><td>Omron M6</td><td>All versions</td><td>EPH_BLOOD</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Blood pressure & Pulse - Malmö</td><td>Systolic</td><td></td><td>Automatic measuring</td><td>Omron M6</td><td>All versions</td><td>EPH_BLOOD</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>EKG</td><td>HeartRate</td><td>BPM</td><td>One lead ECG</td><td>Zenicor EKG-2</td><td>All versions</td><td>EKG</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>EKG</td><td>rrVar</td><td></td><td>One lead ECG</td><td>Zenicor EKG-2</td><td>All versions</td><td>EKG</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>EKG</td><td>QTC</td><td></td><td>One lead ECG</td><td>Zenicor EKG-2</td><td>All versions</td><td>EKG</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>EKG</td><td>Diagnosis</td><td></td><td>ECG - Diagnosis</td><td></td><td>All versions</td><td>EKG</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>EKG</td><td>Sinusrythm</td><td></td><td>ECG - Diagnosis</td><td></td><td>All versions</td><td>EKG</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>EKG</td><td>A fibrillation</td><td></td><td>ECG - Diagnosis</td><td></td><td>All versions</td><td>EKG</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>EKG</td><td>Bad quality</td><td></td><td>ECG - Diagnosis</td><td></td><td>All versions</td><td>EKG</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>EKG</td><td>Other arythmias</td><td></td><td>ECG - Diagnosis</td><td></td><td>All versions</td><td>EKG</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Biobanked blood sample</td><td>Citrate 3.8%</td><td></td><td>Fasting sample</td><td></td><td>All versions</td><td>EPH_BLOTUBE</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Biobanked blood sample</td><td>EDTA Whole Blood</td><td></td><td>Fasting sample</td><td></td><td>All versions</td><td>EPH_BLOTUBE</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Biobanked blood sample</td><td>PPT (EDTA with gel)</td><td></td><td>Fasting sample</td><td></td><td>All versions</td><td>EPH_BLOTUBE</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Biobanked blood sample</td><td>PST (LiHep with gel)</td><td></td><td>Fasting sample</td><td></td><td>All versions</td><td>EPH_BLOTUBE</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Analysed blood sample</td><td>NaFl (analysis)</td><td></td><td>Fasting sample - Analysis</td><td></td><td>All versions</td><td>Analysed blood sample</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Analysed blood sample</td><td>P-Glucose</td><td>mmol/L</td><td>Fasting sample - Analysis</td><td></td><td>All versions</td><td>Analysed blood sample</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Analysed blood sample</td><td>LiHep (analysis)</td><td></td><td>Fasting sample - Analysis</td><td></td><td>All versions</td><td>Analysed blood sample</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Analysed blood sample</td><td>P-total cholesterol</td><td>mmol/L</td><td>Fasting sample - Analysis</td><td></td><td>All versions</td><td>Analysed blood sample</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Analysed blood sample</td><td>P-HDL-cholesterol</td><td>mmol/L</td><td>Fasting sample - Analysis</td><td></td><td>All versions</td><td>Analysed blood sample</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Analysed blood sample</td><td>fP-Triglycerides/P-Triglycerides</td><td>mmol/L</td><td>Fasting sample - Analysis. "fP" from start until 2013-09-23, "P" from 2013-09-24.</td><td></td><td>All versions</td><td>Analysed blood sample</td></tr>
+                        <tr><td><input name="EPH_PHYS" type="checkbox" /></td><td>Analysed blood sample</td><td>LDL-cholesterol, calculated</td><td>mmol/L</td><td>Fasting sample - Analysis</td><td></td><td>All versions</td><td>Analysed blood sample</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
 
-            <div class="container-fluid">
-                <button class="btn btn-success btn-block" onclick="getCheckboxStatus('EPH_PHYS')">Go</button>
-            </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                    <label for="checkAllBoxesBottom">
+                        <input id="checkAllBoxesBottom" type="checkbox" onclick="checkAll(this, 'EPH_PHYS')">Check/uncheck all</button>
+                    </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-success btn-block" type="submit">Go</button>
+                </div>
             
+            </form>
+
             <hr>
 
             <div class="container-fluid">
                 <div class="panel panel-default">
-                    <div class="panel-body" id="output" style="font-size: 10px;"></div>
+                    <div class="panel-body"><code id="output"></code></div>
                 </div>
             </div>
         
