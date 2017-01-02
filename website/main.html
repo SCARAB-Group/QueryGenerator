@@ -48,16 +48,28 @@
         </div>
 
         <div id="Physical_EPH" class="tab-pane fade" w3-include-html="Physical_Measurements_EPH.html">
-            
+
+            <br>
+
+            <div class="container-fluid">
+                <label for="dataRequestId">Data extraction Id:</label>
+                <input type="text" class="form-control" id="dataRequestId">
+            </div>
+
+            <div class="container-fluid">
+                <label for="dataExtractionComment">Data extraction comment:</label>
+                <input type="text" class="form-control" id="dataExtractionComment">
+            </div>
+
             <div class="container-fluid">
                 <div class="checkbox">
-                <label>
-                    <input type="checkbox" onclick="checkAll(this, 'EPH_PHYS')">Check/uncheck all</button>
+                <label for="checkAll">
+                    <input id="checkAll" type="checkbox" onclick="checkAll(this, 'EPH_PHYS')">Check/uncheck all</button>
                 </label>
                 </div>
             </div>
 
-            <div class="container-fluid">
+            <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
                     <tr>
@@ -243,14 +255,14 @@
             </div>
 
             <div class="container-fluid">
-                <button class="btn btn-success" onclick="getCheckboxStatus('EPH_PHYS')">Go</button>
+                <button class="btn btn-success btn-block" onclick="getCheckboxStatus('EPH_PHYS')">Go</button>
             </div>
             
             <hr>
 
             <div class="container-fluid">
                 <div class="panel panel-default">
-                    <div class="panel-body" id="output"></div>
+                    <div class="panel-body" id="output" style="font-size: 10px;"></div>
                 </div>
             </div>
         
