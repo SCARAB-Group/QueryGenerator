@@ -7,15 +7,24 @@
 
 $(function () {
 
-    $('#theForm').on('submit', function (e) {
+    $('#physicalDataForm').on('submit', function (e) {
         if (!e.isDefaultPrevented()) {
-            generateQuery(["EPH_PHYS_LIMS", "EPH_PHYS_EKG", "EPH_PHYS_BLOOD"]);
+            generatePhysicalQuery(["EPH_PHYS_LIMS", "EPH_PHYS_EKG", "EPH_PHYS_BLOOD"]);
+            document.getElementById("physicalOutput").scrollIntoView();
             return false;
         }
     })
+
+    $('#surveyDataForm').on('submit', function (e) {
+        if (!e.isDefaultPrevented()) {
+            generateSurveyQuery(["EPH_SURVEY_SOC"]);
+            document.getElementById("surveyOutput").scrollIntoView();
+            return false;
+        }
+    })    
 });
 
-var generateQuery = function(targetList) {
+var generatePhysicalQuery = function(targetList) {
 
     var selectedVariables;
     var query = "";
@@ -28,16 +37,15 @@ var generateQuery = function(targetList) {
         if (selectedVariables.length > 0) {
             switch (currentTarget) {
                 case "EPH_PHYS_LIMS":
-                    query += addRequestIdAndComment(getLIMSQueryTop() + getLIMSSelects(selectedVariables) + getLIMSQueryBottom())
+                    query += "-- ======== LIMS Query ========<br><br>" + addRequestIdAndComment(getLIMSQueryTop() + getLIMSSelects(selectedVariables) + getLIMSQueryBottom())
                     break;
 
                 case "EPH_PHYS_EKG":
-                    console.log(selectedVariables)
-                    query += "<br><br>" + addRequestIdAndComment(getEKGQueryTop() + getEKGQuerySelects(selectedVariables) + getEKGQueryBottom())
+                    query += "<br>-- ======== EKG Query ========<br><br>" + addRequestIdAndComment(getEKGQueryTop() + getEKGQuerySelects(selectedVariables) + getEKGQueryBottom())
                     break;
 
                 case "EPH_PHYS_BLOOD":
-                    query += "<br><br>" + addBloodAnalysisFilters(getBloodQueryTop() + getBloodQueryBottom(), selectedVariables);
+                    query += "<br>-- ======== Blood analysis Query ========<br><br>" + addBloodAnalysisFilters(getBloodQueryTop() + getBloodQueryBottom(), selectedVariables);
                     break;
 
                 default:
@@ -47,7 +55,6 @@ var generateQuery = function(targetList) {
     }
      
     displayOutput(query);
-    document.getElementById("output").scrollIntoView();
 };
 
 var getSelectedVariables = function(target) {
@@ -62,8 +69,6 @@ var getSelectedVariables = function(target) {
             var currentRow = checkbox.parentNode.parentNode;
             var variableNameColumn = currentRow.getElementsByTagName("td")[2];
             var analysisNameColumn = currentRow.getElementsByTagName("td")[7];
-
-            console.log(checkbox.nodeName);
 
             variables.push({
                 'variable': variableNameColumn.textContent,
@@ -88,7 +93,7 @@ var checkAll = function(selector, targetList) {
 };
 
 var addRequestIdAndComment = function(queryString) {
-    return queryString.replace("#REQUEST_ID#", $('#dataRequestId').val()).replace("#REQUEST_COMMENT#", $('#dataExtractionComment').val())
+    return queryString.replace("#REQUEST_ID#", $('#dataRequestIdPhysical').val()).replace("#REQUEST_COMMENT#", $('#dataRequestCommentPhysical').val())
 };
 
 var displayOutput = function(content) { // Expects content to be an 1-dim array containing objects with properties 'analysis' and 'variable'
@@ -347,7 +352,6 @@ var getBloodQueryTop = function() {
 };
 
 var getBloodQueryFilters = function(variables) {
-    console.log("add filters")
     var variableList = "";
     var currentVariable = "";
     var currentAnalysis = "";
