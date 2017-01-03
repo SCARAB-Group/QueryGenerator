@@ -1,19 +1,56 @@
+/**
+ * NOTE: all functions called getXXXQuery... are to be considered temporary as these only return text strings that build up the
+ * SQL queries for the data requests. They are full of special case handling and overall these string resources should be fetched
+ * from a backend service instead. Also, the order document/main website page should be looked at and probably adjusted a bit in
+ * order to avoid some of the special case handling.
+ */
+
 $(function () {
 
     $('#theForm').on('submit', function (e) {
         if (!e.isDefaultPrevented()) {
-            generateQuery("EPH_PHYS");
+            generateQuery(["EPH_PHYS_LIMS", "EPH_PHYS_EKG", "EPH_PHYS_BLOOD"]);
             return false;
         }
     })
 });
 
-var generateQuery = function(target) {
-    getCheckboxStatus(target);
+var generateQuery = function(targetList) {
+
+    var selectedVariables;
+    var query = "";
+    var currentTarget;
+
+    for (var t in targetList) {
+        currentTarget = targetList[t];
+        selectedVariables = getSelectedVariables(currentTarget);
+
+        if (selectedVariables.length > 0) {
+            switch (currentTarget) {
+                case "EPH_PHYS_LIMS":
+                    query += addRequestIdAndComment(getLIMSQueryTop() + getLIMSSelects(selectedVariables) + getLIMSQueryBottom())
+                    break;
+
+                case "EPH_PHYS_EKG":
+                    console.log(selectedVariables)
+                    query += "<br><br>" + addRequestIdAndComment(getEKGQueryTop() + getEKGQuerySelects(selectedVariables) + getEKGQueryBottom())
+                    break;
+
+                case "EPH_PHYS_BLOOD":
+                    query += "<br><br>" + addBloodAnalysisFilters(getBloodQueryTop() + getBloodQueryBottom(), selectedVariables);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+     
+    displayOutput(query);
     document.getElementById("output").scrollIntoView();
 };
 
-var getCheckboxStatus = function(target) {
+var getSelectedVariables = function(target) {
     var checkboxes = document.getElementsByName(target);
 
     var variables = [];
@@ -26,6 +63,8 @@ var getCheckboxStatus = function(target) {
             var variableNameColumn = currentRow.getElementsByTagName("td")[2];
             var analysisNameColumn = currentRow.getElementsByTagName("td")[7];
 
+            console.log(checkbox.nodeName);
+
             variables.push({
                 'variable': variableNameColumn.textContent,
                 'analysis': analysisNameColumn.textContent
@@ -33,19 +72,22 @@ var getCheckboxStatus = function(target) {
         }        
     }
 
-    displayOutput(addDataRequestId(getQueryTop() + getSelects(variables) + getQueryBottom()));
+    return variables;
 };
 
-var checkAll = function(selector, target) {
+var checkAll = function(selector, targetList) {
     // Get checked/unchecked status from selection button and apply the same status to all checkboxes in a table
     var selectionStatus = selector.checked;
-    var checkboxes = document.getElementsByName(target);
 
-    for (var i = 0; i < checkboxes.length; i++)
-        checkboxes[i].checked = selectionStatus;
+    for (var index in targetList) {
+        var checkboxes = document.getElementsByName(targetList[index]);
+
+        for (var i = 0; i < checkboxes.length; i++)
+            checkboxes[i].checked = selectionStatus;
+    }
 };
 
-var addDataRequestId = function(queryString) {
+var addRequestIdAndComment = function(queryString) {
     return queryString.replace("#REQUEST_ID#", $('#dataRequestId').val()).replace("#REQUEST_COMMENT#", $('#dataExtractionComment').val())
 };
 
@@ -56,7 +98,7 @@ var displayOutput = function(content) { // Expects content to be an 1-dim array 
 };
 
 // ful-variant, detta kanske ska läsas från en fil eller backend istället :)
-var getQueryTop = function() {
+var getLIMSQueryTop = function() {
     return "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;<br><br>"
         + "DECLARE<br>"
         + "@StudyRequestId nvarchar(20)<br>"
@@ -71,19 +113,23 @@ var getQueryTop = function() {
         + "--Data Extraction comment (name of receiver)<br>"
         + "SET @RequestComment = '#REQUEST_COMMENT#'<br><br>"
         + "SELECT DISTINCT<br>"
-        + "P.ParticipantID as ParticipantID --ParticipantId<br>";
+        + "P.ParticipantID as ParticipantID<br>";
 };
 
-var getSelects = function(variables) {
+var getLIMSSelects = function(variables) {
     var variableList = "";
     var currentAnalysis = "";
     var currentVariable = "";
     var previousAnalysis = "";
     var preQrySpecialCases = ["Joint", "gastro-intestinal", "Cold/influenza", "Other", "Urinary tract"];
 
-    for (v in variables) {
+    for (var v = 0; v < variables.length; v++) {
         currentVariable = variables[v].variable;
         currentAnalysis = variables[v].analysis 
+
+        if (previousAnalysis === "EPH_PRE_QRY" && (currentAnalysis !== previousAnalysis || v === variables.length-1)) { // Add END to CASE clause
+            variableList += "END AS Whatinfection<br>";
+        }
 
         // Handle special cases
         // ---- Pre-query question value mapping ----
@@ -92,12 +138,21 @@ var getSelects = function(variables) {
                 variableList += ",CASE MAX(CASE WHEN Result.ANALYSIS = 'EPH_PRE_QRY' AND Result.REPORTED_NAME = 'What infection' THEN Result.FORMATTED_ENTRY END)<br>"
             } else if (preQrySpecialCases.indexOf(currentVariable) !== -1) {
                 variableList += "WHEN '" + getPreQryShortName(currentVariable) + "' THEN '" + currentVariable + "'<br>"
+            } else {
+                variableList += ",MAX(CASE WHEN Result.ANALYSIS = '" + currentAnalysis
+                + "' AND Result.REPORTED_NAME = '" + currentVariable + "' THEN Result.FORMATTED_ENTRY END) AS " + currentVariable.replace(/\s|\-|\//g, "") + "<br>";
             }
-        } else if (previousAnalysis === "EPH_PRE_QRY" && currentAnalysis !== previousAnalysis) { // Add END to CASE clause
-            variableList += "END AS Whatinfection<br>";
-        }
+        } 
         // ---- End pre-query question value mapping ----
-        else {
+        else if (currentVariable === "Visit-age calculation") {
+            variableList += ",(CAST(LEFT(CONVERT(VARCHAR(10), Sample.LOGIN_DATE, 20), 4) AS int) - CAST(LEFT(P.CivicRegistrationNumber, 4) AS int)) AS VisitAge<br>";
+        } else if (currentVariable === "Gender") {
+            variableList += ",CASE WHEN Substring(P.CivicRegistrationNumber,11,1) % 2 = 0 THEN 'Female' ELSE 'Male' END AS Gender<br>";
+        } else if (currentVariable === "Visit date") {
+            variableList += ",Sample.LOGIN_DATE AS VisitStartDate<br>";
+        } else if (currentVariable === "Visit site") {
+            variableList += ",CASE WHEN Sample.LG_MACHINE LIKE '%UU' THEN 'Uppsala' WHEN Sample.LG_MACHINE LIKE '%LU' THEN 'Malmo' END as Site";
+        } else {
             variableList += ",MAX(CASE WHEN Result.ANALYSIS = '" + currentAnalysis
                 + "' AND Result.REPORTED_NAME = '" + currentVariable + "' THEN Result.FORMATTED_ENTRY END) AS " + currentVariable.replace(/\s|\-|\//g, "") + "<br>";
         }
@@ -126,8 +181,8 @@ var getPreQryShortName = function(varName) {
 };
 
 
-var getQueryBottom = function() {
-    return "INTO #TempData<br><br>"
+var getLIMSQueryBottom = function() {
+    return "<br>INTO #TempData<br><br>"
         + "--Get study<br>"
         + "FROM LGDB.dbo.Study S<br><br>"
         + "--Get participants in study<br>"
@@ -209,7 +264,156 @@ var getQueryBottom = function() {
         + "FROM #BaseData B<br>"
         + "ORDER BY B.ParticipantInRequestId<br><br>"
         + "DROP TABLE #TempData<br>"
-        + "DROP TABLE #BaseData<br>"
+        + "DROP TABLE #BaseData<br>GO<br>"
+};
+
+var getEKGQueryTop = function() {
+    return "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;<br>"
+        + "<br>"
+        + "DECLARE <br>"
+        + " @StudyRequestId nvarchar(20)<br>"
+        + ",@RequestComment nvarchar(255)<br>"
+        + ",@StudyName nvarchar(20)<br>"
+        + ",@RequestId int<br>"
+        + "<br>"
+        + "SET @StudyRequestId = '#REQUEST_ID#'<br>"
+        + "SET @RequestId = (SELECT RequestId FROM LGDB.DataExtraction.Request WHERE RequestStudyRequestId = @StudyRequestId)<br>"
+        + "SET @StudyName = 'EpiHealth'<br>"
+        + "<br>"
+        + "SELECT DISTINCT<br>"
+        + " p.ParticipantID as ParticipantID<br>"
+        + ",DEP.ParticipantDataExtractionId AS ParticipantInRequestId<br>"
+        + ",LGDB.api.CalculateAgeByDate(P.CivicRegistrationNumber,RMZM.TakenTime) as ParticipantAgeAtMeasure<br>"
+        + ",LGDB.api.CalculateGender(P.CivicRegistrationNumber) as Gender<br>";
+
+};
+
+var getEKGQuerySelects = function(variables) {
+    var variableList = "";
+    var currentVariable = "";
+    var currentAnalysis = "";
+
+    variableList += ",RMZM.TakenTime as MeasureDate<br>";
+
+    for (var v = 0; v < variables.length; v++) {
+        currentVariable = variables[v].variable;
+        currentAnalysis = variables[v].analysis 
+        variableList += ",RMZM." + currentVariable + " as " + currentVariable.replace(/\s|\-|\//g, "") + "<br>";
+    }
+
+    return variableList;
+};
+
+var getEKGQueryBottom = function() {
+    return "FROM LGDB.dbo.Study S<br>"
+        + "<br>"
+        + "INNER JOIN LGDB.dbo.Participant P<br>"
+        + "		ON S.StudyID = P.StudyID<br>"
+        + "		AND P.TestParticipant = 0 --Do not include test participants<br>"
+        + "		AND P.RecruitmentStatus != 'Testdeltagare'<br>"
+        + "<br>"
+        + "INNER JOIN LGDB.DataExtraction.Participant DEP<br>"
+        + "	ON P.ParticipantID = DEP.ParticipantId<br>"
+        + "<br>"
+        + "INNER JOIN ResultManager.Zenicor.Measurement RMZM ON P.ParticipantID = RMZM.PatientId<br>"
+        + "<br>"
+        + "INNER JOIN ResultManager.Zenicor.Diagnosis RMZD ON RMZM.DiagnosisId = RMZD.DiagnosisId<br>"
+        + "<br>"
+        + "WHERE S.Description = @StudyName<br>"
+        + "AND DEP.RequestId = @RequestId<br>"
+        + "order by ParticipantInRequestId<br>";
+};
+
+var getBloodQueryTop = function() {
+    return "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;<br>"
+        + "<br>"
+        + "DECLARE <br>"
+        + " @StudyRequestId nvarchar(20)<br>"
+        + ",@RequestComment nvarchar(255)<br>"
+        + ",@StudyName nvarchar(20)<br>"
+        + ",@RequestId int<br>"
+        + "<br>"
+        + "SET @StudyRequestId = '#REQUEST_ID#'<br>"
+        + "SET @RequestId = (SELECT RequestId FROM LGDB.DataExtraction.Request WHERE RequestStudyRequestId = @StudyRequestId)<br>"
+        + "SET @StudyName = 'EpiHealth'<br>"
+        + "<br>"
+        + "SELECT DISTINCT<br>"
+        + " p.ParticipantID as ParticipantID<br>"
+        + ",DEP.ParticipantDataExtractionId AS ParticipantInRequestId<br>"
+        + ", RMKR.InvestigationName<br>"
+        + ", RMKR.ResultValue<br>"
+        + ", RMKR.ResultUnit<br>"
+        + ", RMKR.SourceSystemDescription<br>";
+};
+
+var getBloodQueryFilters = function(variables) {
+    console.log("add filters")
+    var variableList = "";
+    var currentVariable = "";
+    var currentAnalysis = "";
+    var investigationNameMapping = {};
+    investigationNameMapping["NaFl (analysis)"] = ""; // oklart om denna ens finns
+    investigationNameMapping["P-Glucose"] = "P-Glukos";
+    investigationNameMapping["LiHep (analysis)"] = ""; // oklart om denna ens finns
+    investigationNameMapping["P-total cholesterol"] = ""; // oklart om denna ens finns
+    investigationNameMapping["P-HDL-cholesterol"] = "P-HDL-kolesterol";
+    investigationNameMapping["fP-Triglycerides"] = "fP-Triglycerider";
+    investigationNameMapping["P-Triglycerides"] = "P-Triglycerider";
+    investigationNameMapping["LDL-cholesterol, calculated"] = "LDL-kolesterol, calculated";
+
+    variableList += "AND InvestigationName IN (";
+
+    for (var v = 0; v < variables.length; v++) {
+        currentVariable = variables[v].variable;
+        currentAnalysis = variables[v].analysis;
+        
+        if (currentVariable.substring(0,2) === "fP") {
+            // Special case for investigation "fP-Triglycerides/P-Triglycerides"
+            variableList += "'" + investigationNameMapping[currentVariable.split("/")[0]] + "',";
+            variableList += "'" + investigationNameMapping[currentVariable.split("/")[1]] + "'";
+        } else {
+            variableList += "'" + investigationNameMapping[currentVariable] + "'"
+        }
+        
+        if (v !== variables.length-1)
+            variableList += ','
+    }
+
+    variableList += ")";
+
+    return variableList;
+};
+
+var getBloodQueryBottom = function() {
+    return "FROM LGDB.dbo.Study S<br>"
+        + "<br>"
+        + "--Get participants in study<br>"
+        + "INNER JOIN LGDB.dbo.Participant P<br>"
+        + "		ON S.StudyID = P.StudyID<br>"
+        + "		AND P.TestParticipant = 0 --Do not include test participants<br>"
+        + "		AND P.RecruitmentStatus != 'Testdeltagare'<br>"
+        + "<br>"
+        + "INNER JOIN LGDB.dbo.ExternalParticipant EP<br>"
+        + "	ON P.ParticipantID = EP.ParticipantID<br>"
+        + "<br>"
+        + "INNER JOIN LGDB.DataExtraction.Participant DEP<br>"
+        + "	ON P.ParticipantID = DEP.ParticipantId<br>"
+        + "	<br>"
+        + "INNER JOIN [LIMS-PROD].dbo.SAMPLE Sample<br>"
+        + "	ON Sample.PATIENT = EP.ExternalParticipantID COLLATE Finnish_Swedish_CI_AS<br>"
+        + "	AND EP.ExternalSystemID = 6 --Lims<br>"
+        + "	AND Sample.STATUS != 'X'<br>"
+        + "<br>"
+        + "INNER JOIN [ResultManager].[UL].[KemlabResultCurrent] RMKR<br>"
+        + "	ON Sample.TEXT_ID = RMKR.SampleBarcode COLLATE Finnish_Swedish_CI_AS<br>"
+        + "WHERE S.Description = @StudyName<br>"
+        + "AND DEP.RequestId = @RequestId<br>"
+        + "#BLOOD_ANALYSIS_FILTERS#<br>"
+        + "order by ParticipantInRequestId";
+};
+
+var addBloodAnalysisFilters = function(queryString, variables) {
+    return queryString.replace("#BLOOD_ANALYSIS_FILTERS#", getBloodQueryFilters(variables));
 };
 
 // This won't work in Chrome due to disabled cross-origin request
