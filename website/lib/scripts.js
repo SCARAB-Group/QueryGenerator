@@ -193,6 +193,7 @@ var getLIMSSelects = function(variables) {
     var currentVariable = "";
     var previousAnalysis = "";
     var preQrySpecialCases = ["Joint", "gastro-intestinal", "Cold/influenza", "Other", "Urinary tract"];
+    
 
     for (var v = 0; v < variables.length; v++) {
         currentVariable = variables[v].variable;
@@ -211,7 +212,7 @@ var getLIMSSelects = function(variables) {
                 variableList += "WHEN '" + getPreQryShortName(currentVariable) + "' THEN '" + currentVariable + "'<br>"
             } else {
                 variableList += ",MAX(CASE WHEN Result.ANALYSIS = '" + currentAnalysis
-                + "' AND Result.REPORTED_NAME = '" + currentVariable + "' THEN Result.FORMATTED_ENTRY END) AS " + currentVariable.replace(/\s|\-|\//g, "") + "<br>";
+                + "' AND Result.REPORTED_NAME = '" + currentVariable + "' THEN Result.FORMATTED_ENTRY END) AS " + currentVariable.replace(/\s|\-|\/|\(|\)|\./g, "").replace(/\%/,"Perc") + "<br>";
             }
         } 
         // ---- End pre-query question value mapping ----
@@ -225,7 +226,7 @@ var getLIMSSelects = function(variables) {
             variableList += ",CASE WHEN Sample.LG_MACHINE LIKE '%UU' THEN 'Uppsala' WHEN Sample.LG_MACHINE LIKE '%LU' THEN 'Malmo' END as Site";
         } else {
             variableList += ",MAX(CASE WHEN Result.ANALYSIS = '" + currentAnalysis
-                + "' AND Result.REPORTED_NAME = '" + currentVariable + "' THEN Result.FORMATTED_ENTRY END) AS " + currentVariable.replace(/\s|\-|\//g, "") + "<br>";
+                + "' AND Result.REPORTED_NAME = '" + currentVariable + "' THEN Result.FORMATTED_ENTRY END) AS " + currentVariable.replace(/\s|\-|\/|\(|\)|\./g, "").replace(/\%/,"Perc") + "<br>";
         }
 
         previousAnalysis = currentAnalysis;
@@ -363,13 +364,19 @@ var getEKGQuerySelects = function(variables) {
     var variableList = "";
     var currentVariable = "";
     var currentAnalysis = "";
+    var zenicorColumnRefList = ["TakenTime", "HeartRate", "rrVar", "QTC"]
 
     variableList += ",RMZM.TakenTime as MeasureDate<br>";
 
     for (var v = 0; v < variables.length; v++) {
         currentVariable = variables[v].variable;
-        currentAnalysis = variables[v].analysis 
-        variableList += ",RMZM." + currentVariable + " as " + currentVariable.replace(/\s|\-|\//g, "") + "<br>";
+        currentAnalysis = variables[v].analysis;
+
+        if (zenicorColumnRefList.indexOf(currentVariable) !== -1) {
+            variableList += ",RMZM." + currentVariable + " as " + currentVariable.replace(/\s|\-|\/|\(|\)|\./g, "").replace(/\%/,"Perc") + "<br>";
+        } else if (currentVariable === "Diagnosis") {
+            variableList += ",RMZD.Diagnosis as Diagnosis<br>"
+        }
     }
 
     return variableList;
@@ -444,6 +451,10 @@ var getBloodQueryFilters = function(variables) {
         } else {
             variableList += "'" + investigationNameMapping[currentVariable] + "'"
         }
+
+        if (investigationNameMapping[currentVariable] == undefined) {
+            console.log(currentVariable, " -> ", investigationNameMapping[currentVariable])
+        }
         
         if (v !== variables.length-1)
             variableList += ','
@@ -515,7 +526,7 @@ var getSurveyQueryTop = function() {
         + "SET @StudyName = 'EpiHealth'<br>"
         + "<br>"
         + "SELECT DISTINCT<br>"
-        + " p.ParticipantID as ParticipantID<br>"
+        + " EP.ParticipantID as ParticipantID<br>"
         + ",DEP.ParticipantDataExtractionId AS ParticipantInRequestId<br><br>";
 };
 
@@ -540,14 +551,14 @@ var getSurveyQueryBottom = function() {
     return "<br>FROM LGDB.DataExtraction.Participant DEP<br>"
         + "<br>"
         + "--Get Confirmit Id for participant	<br>"
-        + "INNER JOIN LGDB.dbo.ExternalParticipant ConfirmitId<br>"
-        + "	ON DEP.ParticipantID = ConfirmitId.ParticipantID<br>"
-        + "	AND ConfirmitId.ExternalSystemID = 5<br>"
+        + "INNER JOIN LGDB.dbo.ExternalParticipant EP<br>"
+        + "	ON DEP.ParticipantID = EP.ParticipantID<br>"
+        + "	AND EP.ExternalSystemID = 5<br>"
         + "<br>"
         + "--Get EpiHealth survey tables<br>"
         + "INNER JOIN survey_p0642585.dbo.respondent R<br>"
-        + "	ON ConfirmitId.ExternalParticipantID = R.userid<br>"
-        + "	AND ConfirmitId.ExternalSystemID = 5<br>"
+        + "	ON EP.ExternalParticipantID = R.userid<br>"
+        + "	AND EP.ExternalSystemID = 5<br>"
         + "<br>"
         + "LEFT JOIN survey_p0642585.dbo.response0 r0<br>"
         + "	ON r.respid = r0.respid<br>"
