@@ -38,11 +38,11 @@ var generatePhysicalQuery = function(targetList) {
         if (selectedVariables.length > 0) {
             switch (currentTarget) {
                 case "EPH_PHYS_LIMS":
-                    query += "-- ======== LIMS Query ========<br><br>" + addRequestIdAndComment(getLIMSQueryTop() + getLIMSSelects(selectedVariables) + getLIMSQueryBottom())
+                    query += "-- ======== LIMS Query ========<br><br>" + getLIMSQueryTop() + getLIMSSelects(selectedVariables) + getLIMSQueryBottom();
                     break;
 
                 case "EPH_PHYS_EKG":
-                    query += "<br>-- ======== EKG Query ========<br><br>" + addRequestIdAndComment(getEKGQueryTop() + getEKGQuerySelects(selectedVariables) + getEKGQueryBottom())
+                    query += "<br>-- ======== EKG Query ========<br><br>" + getEKGQueryTop() + getEKGQuerySelects(selectedVariables) + getEKGQueryBottom();
                     break;
 
                 case "EPH_PHYS_BLOOD":
@@ -55,6 +55,7 @@ var generatePhysicalQuery = function(targetList) {
         }
     }
      
+    query = addRequestIdAndComment(query, "#dataRequestIdPhysical");
     displayOutput(query, "physicalOutput");
 };
 
@@ -111,7 +112,7 @@ var generateSurveyQuery = function(targetList) {
         }
     }
 
-    query = addRequestIdAndComment(getSurveyQueryTop() + query + getSurveyQueryBottom());
+    query = addRequestIdAndComment(getSurveyQueryTop() + query + getSurveyQueryBottom(), "#dataRequestIdSurvey");
 
     displayOutput(query, "surveyOutput");
 };
@@ -158,8 +159,8 @@ var checkAll = function(selector, targetList) {
     }
 };
 
-var addRequestIdAndComment = function(queryString) {
-    return queryString.replace("#REQUEST_ID#", $('#dataRequestIdPhysical').val()).replace("#REQUEST_COMMENT#", $('#dataRequestCommentPhysical').val())
+var addRequestIdAndComment = function(queryString, tagId) {
+    return queryString.replace(/\#REQUEST_ID\#/g, $(tagId).val()).replace(/\#REQUEST_COMMENT\#/g, $(tagId).val())
 };
 
 var displayOutput = function(content, target) {
