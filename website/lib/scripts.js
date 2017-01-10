@@ -55,7 +55,7 @@ var generatePhysicalQuery = function(targetList) {
         }
     }
      
-    query = addRequestIdAndComment(query, "#dataRequestIdPhysical");
+    query = addRequestIdAndComment(query, "#dataRequestIdPhysical", "#dataRequestCommentPhysical");
     displayOutput(query, "physicalOutput");
 };
 
@@ -112,8 +112,7 @@ var generateSurveyQuery = function(targetList) {
         }
     }
 
-    query = addRequestIdAndComment(getSurveyQueryTop() + query + getSurveyQueryBottom(), "#dataRequestIdSurvey");
-
+    query = addRequestIdAndComment(getSurveyQueryTop() + query + getSurveyQueryBottom(), "#dataRequestIdSurvey", "#dataRequestCommentSurvey");
     displayOutput(query, "surveyOutput");
 };
 
@@ -159,8 +158,8 @@ var checkAll = function(selector, targetList) {
     }
 };
 
-var addRequestIdAndComment = function(queryString, tagId) {
-    return queryString.replace(/\#REQUEST_ID\#/g, $(tagId).val()).replace(/\#REQUEST_COMMENT\#/g, $(tagId).val())
+var addRequestIdAndComment = function(queryString, tagIdReqId, tagIdReqComment) {
+    return queryString.replace(/\#REQUEST_ID\#/g, $(tagIdReqId).val()).replace(/\#REQUEST_COMMENT\#/g, $(tagIdReqComment).val())
 };
 
 var displayOutput = function(content, target) {
